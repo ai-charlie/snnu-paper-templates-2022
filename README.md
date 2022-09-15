@@ -33,11 +33,13 @@
     - 最后编译main.tex
     - 警告：需要修改配置就编辑main.tex的内容，编辑内容去/tex目录下的各个文件
 #### 输出 docx查重： 
-- 环境安装参考链接： https://zhuanlan.zhihu.com/p/455713759
-- 软件：pandoc
+- 参考链接： https://zhuanlan.zhihu.com/p/455713759
+- 软件：
+  -下载安装：pandoc-2.17.1.1 [pandoc-2.17.1.1-windows-x86_64.msi](https://github.com/jgm/pandoc/releases/download/2.17.1.1/pandoc-2.17.1.1-windows-x86_64.msi)
+  - 载解压，复制到pandoc安装目录 [pandoc-crossref](https://github.com/lierdakil/pandoc-crossref/releases/tag/v0.3.12.2a)
+
+
 - 在项目主目录下运行如下命令
-
-
 **g7714-2005**
 ```bash
 pandoc main.tex  --filter pandoc-crossref --citeproc --csl csl/chinese-gb7714-2005-numeric --bibliography=bib/ref.bib -M reference-section-title=Reference  -M autoEqnLabels -M tableEqns  -t docx+native_numbering --number-sections -o output.docx

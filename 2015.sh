@@ -1,0 +1,2 @@
+#!/bin/bash
+pandoc main.tex  --filter pandoc-crossref --citeproc --csl csl/china-national-standard-gb-t-7714-2015-numeric --bibliography=bib/ref.bib -M reference-section-title=Reference  -M autoEqnLabels -M tableEqns  -t docx+native_numbering --number-sections -o main.docx
