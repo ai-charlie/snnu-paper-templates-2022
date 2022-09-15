@@ -1,0 +1,14 @@
+*.aux
+*.bcf
+*.out
+*.fls
+*.log
+*.xml
+*.toc
+*.bbl
+*.blg
+*.xdv
+main.fdb_latexmk
+main.synctex(busy)
+main.synctex.gz
+figure/fenmian.pdf

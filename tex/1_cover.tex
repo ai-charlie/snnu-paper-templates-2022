@@ -1,0 +1,44 @@
+% -*- coding=utf-8 -*-
+\newcommand\clcNumber{G434}                  % 分类号
+\newcommand\securityClassification{公\ 开}       % 密级
+\newcommand\studentId{学号}                  % 学号
+\newcommand\thesisTitle{论文题目}     % 题目
+\newcommand\thesisAuthor{你的名字}                  % 作者
+\newcommand\supervisor{导师名字\ 教授}               % 指导教师
+\newcommand\priormajor{教育学}                   % 一级学科名称
+\newcommand\minormajor{教育技术学}               % 二级学科名称
+\newcommand\thesisDate{二〇二二年十二月}          % 提交日期
+%============================================如非必要，以下内容请勿动==============================================
+{
+    \setlength\parindent{0em}                                               % 设置首行缩进为0
+    \renewcommand{\baselinestretch}{1.5}\selectfont                           % 设置声明的行间距
+    \ThisTileWallPaper{\paperwidth}{\paperheight}{figure/background.jpeg}    % 设置封面背景
+    \vspace*{-0.6cm}                                                           % 设置垂直间距为-2，即将第一行往上移2cm
+    {
+        \zihao{-3}
+        \begin{tabular}{l@{}c p{3cm} l@{}c}     % @{}去除边框距离，更符合学校模板的下划线紧贴描述文字
+            \heiti{分\ 类\ 号}\quad     & \underline{\makebox[4cm][c]{\clcNumber}}                      \\
+            \heiti{密\quad\ \  级}\quad & \underline{\makebox[4cm][c]{\kaishu \securityClassification}} \\
+            \heiti{学\quad\ \  号}\quad & \underline{\makebox[4cm][c]{\studentId}}                      \\
+        \end{tabular}
+    }
+
+    \vspace{7.8cm}
+    {
+        \centering \zihao{-3} \bfseries
+        \heiti{题\quad 目}\underline{\makebox[13cm][c]{\songti \thesisTitle}}\\
+        \makebox[1.7cm]{ }\underline{\makebox[13cm]{ }}
+        \par
+    }
+    \renewcommand{\baselinestretch}{2.5}\selectfont                           % 设置声明的行间距
+    \vspace{3.2cm}
+    {
+        \begin{center} \heiti
+            {\zihao{-3} \bfseries 作\qquad \qquad 者}   \underline{\makebox[15em][c]{\kaishu\thesisAuthor}} \par
+            {\zihao{-3} \bfseries 指\ \ 导\ \ 教\ \ 师} \underline{\makebox[15em][c]{\kaishu\supervisor}} \par
+            {\zihao{-3} \bfseries 一级学科名称}         \underline{\makebox[15em][c]{\kaishu\priormajor}} \par
+            {\zihao{-3} \bfseries 二级学科名称}         \underline{\makebox[15em][c]{\kaishu\minormajor}} \par
+            {\zihao{-3} \bfseries 提\ \ 交\ \ 日\ \ 期} \underline{\makebox[15em][c]{\kaishu\thesisDate}} \par
+        \end{center}
+    }
+}

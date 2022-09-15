@@ -1,0 +1,297 @@
+% -*- coding=utf-8 -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   陕师大硕士学位论文模板
+%   由overleaf上的陕师大学位论文模板修改制作而成
+%   使用要求：
+%       编译器：Texlive2019或以上
+%       编辑器：Texstudio
+%   使用方法：
+%       编辑/tex目录下的各个tex文件的文件内容
+%       最后编译main.tex
+%       警告：需要修改配置就编辑main.tex的内容，编辑内容去/tex目录下的各个文件
+%   输出 docx查重： 
+% 		参考链接： https://zhuanlan.zhihu.com/p/455713759
+% 		软件：pandoc
+% 		在项目主目录下运行如下命令
+%             g7714-2005
+% 			pandoc main.tex  --filter pandoc-crossref --citeproc --csl csl/chinese-gb7714-2005-numeric --bibliography=bib/ref.bib -M reference-section-title=Reference  -M autoEqnLabels -M tableEqns  -t docx+native_numbering --number-sections -o output.docx
+%             g7714-2015
+% 			pandoc main.tex  --filter pandoc-crossref --citeproc --csl csl/china-national-standard-gb-t-7714-2015-numeric --bibliography=bib/ref.bib -M reference-section-title=Reference  -M autoEqnLabels -M tableEqns  -t docx+native_numbering --number-sections -o output.docx
+% 		注意： Word 无法显示矢量图，提前将文中使用的矢量图转为 .PNG 格式。
+% 		tips：查重不用放图，因此，可以将所有的图都画成矢量的
+%   创建日期：2022/3/31
+%   模板维护：Chalie
+%   更新：根据2022年3月新出的论文格式进行修改
+% 	内容结构：
+% 		文档类型，宏包管理，页面边距，页眉页脚，章节标题，目录设置，参考文献，定理环境，
+% 		图表环境，代码环境，引用工具，其余设定，正文内容
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=================================文档类型=====================================================
+%	毕业论文选取ctexbook比较合适
+%	twoside命令，设置为双面排版，左右页边距会根据奇偶页自动调整
+%	12pt，字体大小，默认为10pt
+%	openright命令，默认openright，即为新的一章在右手边开始
+
+\documentclass[zihao=-4,a4paper,twoside,fontset=none, openright, UTF8, AutoFakeBold]{ctexbook}	% 文档类型
+
+%=================================宏包管理=====================================================
+%	和配置有关的宏包在具体的配置区引用，这里只引用正文区用到的宏包
+
+\usepackage{wallpaper}	% 封面背景包
+\usepackage{amsmath,mathtools,amsthm,amsfonts,amssymb,bm}	% AMS包
+\usepackage{xeCJK,xeCJKfntef}
+
+%%============================字体设置========================%%%
+\setmainfont{Times New Roman}        %缺省英文字体 Times New Roman
+\setCJKmainfont[Path=configuration/]{simsun.ttf}          %宋体
+\setCJKsansfont[Path=configuration/]{simhei.ttf}          %黑体
+\setCJKmonofont[Path=configuration/]{simsun.ttf}          %宋体
+% ------------------------------------------------------------------------
+\setCJKfamilyfont{song}[Path=configuration/]{simsun.ttf}  %导入宋体字体
+\newcommand{\songti}{\CJKfamily{song}} %设置宋体快捷命令
+%------------------------------------------------------------------------
+\setCJKfamilyfont{kai}[Path=configuration/]{simkai.ttf}   %导入楷书字体
+\newcommand{\kaishu}{\CJKfamily{kai}}   %设置楷书快捷命令
+%------------------------------------------------------------------------
+\setCJKfamilyfont{hei}[Path=configuration/]{simhei.ttf}   %导入黑体字体
+\newcommand{\heiti}{\CJKfamily{hei}}   %设置黑体快捷命令
+
+%=================================页面边距=====================================================
+%	geometry宏包使用教程：http://www.ctex.org/documents/packages/layout/geometry.htm
+%	A4纸宽210mm，长297mm
+%	left + right + textwidth = 210
+%	top + bottom + textheight = 297
+%	headheight：页眉文字高度，应当小于等于top
+\usepackage{geometry}		% 页面边距包
+\geometry{%
+	a4paper,
+	left=30mm,
+	right=30mm,
+	top=25mm,
+	bottom=25mm,
+	textheight=247mm,
+	textwidth=150mm,
+	headheight=21.7mm
+}
+
+%=================================页眉页脚=====================================================
+%	fancy宏包使用教程：http://www.ctex.org/documents/packages/layout/fancyhdr.htm
+%	fancypagestyle{样式名}可以自定义样式，并通过\pagestyle{样式名}和\thispagestyle{样式名}来使用
+%   \leftmark可以获取不带星号的chapter标题内容，\rightmark可以获取到不带星号的section标题内容
+%   L, C, R分别表示左中右，
+%   E, O分别表示偶数页和奇数页
+\usepackage{fancyhdr}								% 页眉页脚包
+\fancypagestyle{myfancy}{%
+	\fancyhf{}	                                    % 清空所有定义
+	\fancyfoot[CE,CO]{\thepage}                     % 设置页脚为当前页码
+	\fancyhead[CE]{陕西师范大学硕士学位论文}          % 设置偶数页居中的页眉为陕西师范大学硕士学位论文
+	\fancyhead[CO]{\leftmark}                       % 设置奇数页居中的页眉为当前章节名
+	\renewcommand{\headrule}{%                      % 重定义headrule来实现双页眉装饰线效果
+	    \makebox[0pt][l]{\rule[.7\baselineskip]{\headwidth}{3pt}}%
+	    \rule[.6\baselineskip]{\headwidth}{0.4pt}\vskip-.8\baselineskip
+    }
+}
+
+%=================================章节标题=====================================================
+\ctexset{
+	chapter = {%
+		name = {第, 章},
+		number =\arabic{chapter},  % 用阿拉伯数字显示章节号
+		format += {\heiti  \zihao{-2} \centering},     % chapter格式添加一条：居中
+		beforeskip = 10pt,			% 设置章节标题前的垂直间距为10pt，默认为50pt
+		afterskip = 20pt,			% 设置章节标题后的垂直间距为20pt，默认为40pt
+		fixskip = true,				% 设置固定间距为true，抑制标题前后的多余间距
+	},
+	section = {%
+		format += {\zihao{3}\raggedright } ,   % section格式添加一条：左对齐
+        beforeskip = 1em,			% 设置章节标题前的垂直间距为10pt，默认为50pt
+        afterskip = 1em,			% 设置章节标题后的垂直间距为20pt，默认为40pt
+        fixskip = true,				% 设置固定间距为true，抑制标题前后的多余间距
+	},
+	subsection = {%
+		format += {\zihao{-3} \raggedright },    % subsection格式添加一条：左对齐
+        beforeskip = 1em,			% 设置章节标题前的垂直间距为10pt，默认为50pt
+        afterskip = 1em,			% 设置章节标题后的垂直间距为20pt，默认为40pt
+        fixskip = true,				% 设置固定间距为true，抑制标题前后的多余间距
+	},
+	subsection = {%
+        format += {\zihao{-4} \raggedright } ,   % subsection格式添加一条：左对齐
+        beforeskip = 1em,			% 设置章节标题前的垂直间距为10pt，默认为50pt
+        afterskip = 1em,			% 设置章节标题后的垂直间距为20pt，默认为40pt
+        fixskip = true,				% 设置固定间距为true，抑制标题前后的多余间距
+    }
+}
+
+%=================================目录设置=====================================================
+%	titletoc宏包使用教程：https://blog.csdn.net/golden1314521/article/details/39926135
+%						 https://blog.csdn.net/l_changyun/article/details/87431805
+%
+\usepackage{titletoc}		% 目录定制包
+\titlecontents%	章
+	{chapter}[4em]
+	{\heiti\vspace*{7pt}}
+	{\contentslabel{4em}}
+	{\hspace*{-4em}}
+	{~\titlerule*[0.6pc]{$.$}~\contentspage}
+\titlecontents%	节
+	{section}[4em]
+	{}
+	{\contentslabel{2em}}
+	{\hspace*{-2em}}
+	{~\titlerule*[0.6pc]{$.$}~\contentspage}
+\titlecontents%	小节
+	{subsection}[7em]
+	{}
+	{\contentslabel{3em}}
+	{\hspace*{-2em}}
+	{~\titlerule*[0.6pc]{$.$}~\contentspage}
+
+%=================================参考文献=====================================================
+%   biblatex宏包使用教程：
+%	https://www.overleaf.com/learn/latex/Bibliography_management_with_biblatex
+
+\usepackage[%
+	backend=biber,				% 设置使用biber进行编译，也可以使用bibtex，但是功能更少
+	style=gb7714-2015,			% 设置风格样式为国家标准gb7714-2015
+	%sorting=ynt,					% 设置排序按照年份，名字，标题进行排序
+	gbnamefmt=lowercase,
+	gbpub=false,
+	gbpunctin=false,
+	]{biblatex}       			% 参考文献包
+\addbibresource{bib/ref.bib}    % 加载参考文献的文件
+
+%=================================定理环境=====================================================
+% 	自定义定理类环境（定义，引理，定理，推论，例，注）
+% 		定理环境命令：\newtheorem{name}[counter]{text}[section]
+% 			name:		标识这个环境的关键字（用于编程）
+%			counter:	（可选）编号计数器，默认使用自己的计数器，可以传入其他环境的name来共享计数器
+% 			text:		真正在文档中打印出来的定理环境的名字
+% 			section:	（可选）定理编号依赖的某个章节层次，默认不依赖。
+%	利用counter共享其他环境的计数器后，autoref命令无法获取到环境名，因此引入aliascnt宏包来解决这个问题
+%	具体参考https://tex.stackexchange.com/questions/187388/amsthm-with-shared-counters-messes-up-autoref-references
+%
+\usepackage{aliascnt}					% 定理环境编号辅助包
+\newtheorem{env}{Env}[section]			% 创建一个通用的定理环境env，其他定理环境继承它的编号
+
+\newaliascnt{theorem}{env}				% 将theorem与env的计数器相关联
+\newtheorem{theorem}[theorem]{定理}	  % 新建theorem环境
+\aliascntresetthe{theorem}				% 声明theorem计数器
+
+\newaliascnt{definition}{env}
+\newtheorem{definition}[definition]{定义}
+\aliascntresetthe{definition}
+
+\newaliascnt{lemma}{env}
+\newtheorem{lemma}[lemma]{引理}
+\aliascntresetthe{lemma}
+
+\newaliascnt{corollary}{env}
+\newtheorem{corollary}[corollary]{推论}
+\aliascntresetthe{corollary}
+
+% 例，注各自独立编号，无需考虑编号共享的问题，直接创建。证明关键词加粗
+\newtheorem{example}{{例}}[chapter]
+\newtheorem{remark}{{注}}[chapter]
+\renewcommand{\proofname}{\bf 证明}
+
+%=================================图表环境=====================================================
+
+
+% enumitem宏包设置
+\usepackage{tikz}   %矢量图工具包
+\usepackage{pgfplots}
+\usetikzlibrary{graphs, positioning, quotes, shapes.geometric,arrows, decorations.pathmorphing,backgrounds,fit,petri,math,calc}
+\pgfplotsset{compat=1.8}
+\usepackage[demo]{tikzpeople}
+\usepackage{fontawesome}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\usepackage[inline]{enumitem}					% 列表工具包
+\usepackage{booktabs}  %% 三线表
+\usepackage{diagbox}   %% 斜线表头
+\usepackage{multirow}  %% 合并单元格
+\usepackage{longtable}
+\usepackage{float}% 指定图片位置【H】
+\usepackage{graphicx}							% 插图工具包
+\usepackage{subcaption}							% 子图标题包
+\usepackage{bicaption}							% 图片标题包
+\setlist{%	设置列表样式
+	topsep=0.2em, 			% 列表顶端的垂直空白
+	partopsep=0pt, 			% 列表环境前面紧接着一个空白行时其顶端的额外垂直空白
+	itemsep=0ex plus 0.1ex, % 列表项之间的额外垂直空白
+	parsep=0pt, 			% 列表项内的段落之间的垂直空白
+	leftmargin=1.5em, 		% 环境的左边界和列表之间的水平距离
+	rightmargin=0em, 		% 环境的右边界和列表之间的水平距离
+	labelsep=0.5em,         %包含标签的盒子与列表项的第一行文本之间的间隔
+	labelwidth=2em, 			% 包含标签的盒子的正常宽度；若实际宽度更宽，则使用实际宽度。
+}
+\captionsetup[bi]{labelsep=space}
+\captionsetup[figure][bi-second]{name=Figure} %设置图的英文编号前缀
+\captionsetup[table][bi-second]{name=Table} %设置表的英文编号前缀
+\graphicspath{figure/}		% 设置图片存放目录
+
+%=================================代码环境=====================================================
+% 使用listings宏包来插入代码
+\usepackage{listings}	% 代码环境包
+\renewcommand{\lstlistingname}{算法}	% 重命名代码块标题为算法，例如：算法1.2
+\lstset{% 设置算法样式
+	keywordstyle=\bfseries, % 设置关键词加粗
+	basicstyle=\ttfamily, 	% 设置基础样式字体为等宽
+	commentstyle=\ttfamily, % 基本和注释的字体都使用默认的等宽，而非texlive调用的中文字体
+	showstringspaces=false, % 不显示中间的空格
+	breaklines=true,  		% 对过长的代码自动换行
+	frame=single ,			% 边框
+}
+
+%=================================引用工具=====================================================
+% hyperref宏包教程https://www.jianshu.com/p/58e7d0a6d97a
+% 实现超链接功能
+\usepackage{hyperref}	% 交叉引用包
+\hypersetup{%	设置交叉引用属性
+	colorlinks=true,	% 设置可跳转的链接为颜色，而不是方框
+	urlcolor=black,		% 设置各种链接的颜色均为黑色
+	linkcolor=black,
+	anchorcolor=black,
+	citecolor=black
+}
+% 修改使用\autoref命令显示的标签前缀，renewcommand
+\renewcommand*{\theoremautorefname}{定理}
+\providecommand*{\definitionautorefname}{定义}
+\providecommand{\lemmaautorefname}{引理}
+\providecommand*{\corollaryautorefname}{推论}
+\providecommand*{\exampleautorefname}{例}
+\providecommand*{\remarkautorefname}{注}
+\renewcommand*{\figureautorefname}{图}
+\renewcommand*{\tableautorefname}{表}
+\renewcommand*{\equationautorefname}{公式}
+\renewcommand{\thefigure}{\arabic{chapter}-\arabic{figure}}
+\renewcommand{\theequation}{\arabic{chapter}-\arabic{equation}}
+\renewcommand{\thetable}{\arabic{chapter}-\arabic{table}}
+
+\renewcommand{\eqref}[1]{\textup{{\normalfont（\ref{#1}）\normalfont}}}%公式引用使用中文括号
+%=================================其余设定=====================================================
+
+
+%=================================正文内容=====================================================
+\begin{document}
+	\frontmatter                                	% 关闭章节序号与页码
+		\pagestyle{empty}                           % 设置封面和原创性声明的页面样式为空
+		\include{tex/1_cover}                       % 载入封面
+		\include{tex/2_statement}                   % 载入原创性声明
+		\pagenumbering{Roman}						% 切换页码至大写罗马数字显示
+		\include{tex/3_abstract_cn}                 % 载入中文摘要
+		\include{tex/4_abstract_en}                 % 载入英文摘要
+		\tableofcontents                    		% 载入目录
+		\clearpage									% 跳到目录下一页
+		\thispagestyle{plain}						% 显示最后一页的页码
+    \mainmatter                                 	% 开启章节序号计数，重置页码，页码使用阿拉伯数字
+		\fancypagestyle{plain}{\pagestyle{myfancy}} % 设置默认的页面类型plain为自定义样式fancy
+		\pagestyle{myfancy}							% 设置页面布局为自定义的myfancy
+		\include{tex/5_chapters}                    % 载入章节内容
+        \include{tex/6_conclusion}                  % 载入总结
+    \backmatter                                 	% 关闭章节序号，对页码没有影响
+		\include{tex/7_reference}					% 载入参考文献
+		\include{tex/10_additions}  				% 附录
+	    \include{tex/8_thanks}                      % 载入致谢
+		\include{tex/9_research_results}           	% 载入研究成果
+\end{document}
